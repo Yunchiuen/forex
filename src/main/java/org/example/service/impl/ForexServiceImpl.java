@@ -2,7 +2,10 @@ package org.example.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.Repository.ForexRepository;
+import org.example.bean.Forex;
 import org.example.service.ForexService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -17,8 +20,11 @@ import java.util.Map;
 @Service
 public class ForexServiceImpl implements ForexService {
 
+    @Autowired
+    private ForexRepository forexRepository;
+
     @Override
-    public void processAllSave() {
+    public void processSave() {
         //apiUrl 回應 Content-Type application/octet-stream
         String apiUrl = "https://openapi.taifex.com.tw/v1/DailyForeignExchangeRates";
         //[{"Date":"20240201","USD/NTD":"31.338","RMB/NTD":"4.354697","EUR/USD":"1.0785","USD/JPY":"146.675","GBP/USD":"1.26485","AUD/USD":"0.65215","USD/HKD":"7.81815","USD/RMB":"7.19635","USD/ZAR":"18.75215","NZD/USD":"0.60965"},
@@ -46,9 +52,13 @@ public class ForexServiceImpl implements ForexService {
             reader.close();
             inputStream.close();
 
-            for(Map<String, Object> dataMap : dataList){
-                System.out.println(dataMap);
-            }
+            dataList.forEach(dataMap -> {
+                Forex forex = new Forex();
+                forex.setUSD_NTD(dataMap.get("USD/NTD").toString());
+                forex.setDate(dataMap.get("Date").toString());
+                forexRepository.insert(forex);
+            });
+
         } catch (IOException e) {
             e.printStackTrace();
         }

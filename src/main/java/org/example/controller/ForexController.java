@@ -11,10 +11,10 @@ public class ForexController {
     @Autowired
     private ForexService forexService;
 
-    @GetMapping("/hi")
-    public String Hi() {
-        forexService.processAllSave();
-        return "Hi";
+    @GetMapping("/Save")
+    public String Save() {
+        forexService.processSave();
+        return "Save";
     }
 
 }
