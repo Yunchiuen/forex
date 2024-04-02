@@ -14,8 +14,10 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ForexServiceImpl implements ForexService {
@@ -24,7 +26,7 @@ public class ForexServiceImpl implements ForexService {
     private ForexRepository forexRepository;
 
     @Override
-    public void processSave() {
+    public void processObtain() {
         //apiUrl 回應 Content-Type application/octet-stream
         String apiUrl = "https://openapi.taifex.com.tw/v1/DailyForeignExchangeRates";
         //[{"Date":"20240201","USD/NTD":"31.338","RMB/NTD":"4.354697","EUR/USD":"1.0785","USD/JPY":"146.675","GBP/USD":"1.26485","AUD/USD":"0.65215","USD/HKD":"7.81815","USD/RMB":"7.19635","USD/ZAR":"18.75215","NZD/USD":"0.60965"},
@@ -46,18 +48,13 @@ public class ForexServiceImpl implements ForexService {
             // 初始化ObjectMapper
             ObjectMapper objectMapper = new ObjectMapper();
             // 使用readValue方法將JSON字串轉換成指定泛型類別
-            List<Map<String, Object>> dataList = objectMapper.readValue(reader, new TypeReference<List<Map<String,Object>>>() {});
+            List<Forex> dataList = objectMapper.readValue(reader, new TypeReference<List<Forex>>() {});
 
             // 關閉流
             reader.close();
             inputStream.close();
 
-            dataList.forEach(dataMap -> {
-                Forex forex = new Forex();
-                forex.setUSD_NTD(dataMap.get("USD/NTD").toString());
-                forex.setDate(dataMap.get("Date").toString());
-                forexRepository.insert(forex);
-            });
+            dataList.forEach(forex -> processSave(forex));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -65,5 +62,54 @@ public class ForexServiceImpl implements ForexService {
 
     }
 
+    @Override
+    public Forex processSave(Forex forex) {
+        Forex data = forexRepository.insert(forex);
+        System.out.println("insert一筆：" + data);
+        return data;
+    }
+
+    @Override
+    public List<Map<String, String>> processQuery(String startDate, String endDate, String currency) {
+        List<Forex> dataList = forexRepository.findForexBetweenDates(startDate, endDate);
+        List<Map<String, String>> list = dataList.stream().map(data -> {
+            Map<String, String> map = new HashMap<>();
+            map.put("Date", data.getDate());
+            switch (currency) {
+                case "USD/NTD":
+                    map.put(currency, data.getUSD_NTD());
+                    break;
+                case "RMB/NTD":
+                    map.put(currency, data.getRMB_NTD());
+                    break;
+                case "EUR/USD":
+                    map.put(currency, data.getEUR_USD());
+                    break;
+                case "USD/JPY":
+                    map.put(currency, data.getUSD_JPY());
+                    break;
+                case "GBP/USD":
+                    map.put(currency, data.getGBP_USD());
+                    break;
+                case "AUD/USD":
+                    map.put(currency, data.getAUD_USD());
+                    break;
+                case "USD/HKD":
+                    map.put(currency, data.getUSD_HKD());
+                    break;
+                case "USD/RMB":
+                    map.put(currency, data.getUSD_RMB());
+                    break;
+                case "USD/ZAR":
+                    map.put(currency, data.getUSD_ZAR());
+                    break;
+                case "NZD/USD":
+                    map.put(currency, data.getNZD_USD());
+                    break;
+            }
+            return map;
+        }).collect(Collectors.toList());
+        return list;
+    }
 
 }
