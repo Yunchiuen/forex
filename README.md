@@ -2,12 +2,14 @@
 
 1.批次每日18:00呼叫API，取得外匯成交資料
 GET http://localhost:8080/forex/Save
+![batch](https://github.com/Yunchiuen/forex/assets/64777402/128a25e8-befd-4e54-80cb-f316152691bd)
 
 ![batch](.\img\batch.png)
 
 2.從DB取出日期區間內幣別資料
 
 POST http://localhost:8080/forex/query
+
 
 ![SUCCESS](.\img\SUCCESS.png)
 
