@@ -1,4 +1,4 @@
-package org.example.bean;
+package com.my.bean;
 
 public interface Result {
 }

@@ -1,4 +1,4 @@
-package org.example.bean;
+package com.my.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;

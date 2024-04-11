@@ -1,10 +1,12 @@
-package org.example.util;
+package com.my.util;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.logging.Logger;
 
 public class VerificationDate {
+    private static final Logger LOGGER = Logger.getLogger(VerificationDate.class.getName());
     private VerificationDate() {
     }
 
@@ -20,12 +22,12 @@ public class VerificationDate {
         LocalDate date2 = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
 
         if (date1.isBefore(previousYear) || date1.isAfter(previousDay)) {
-            System.out.println("第一個日期必須介於去年到昨天之間");
+            LOGGER.severe("第一個日期必須介於去年到昨天之間");
             return true;
         }
 
         if (date2.isBefore(previousYear) || date2.isAfter(previousDay)) {
-            System.out.println("第二個日期必須介於去年到昨天之間");
+            LOGGER.severe("第二個日期必須介於去年到昨天之間");
             return true;
         }
         return false;
@@ -36,7 +38,7 @@ public class VerificationDate {
             LocalDate date1 = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
             LocalDate date2 = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("yyyy/MM/dd"));
         } catch (DateTimeParseException e) {
-            System.out.println("日期格式錯誤");
+            LOGGER.severe("日期格式錯誤");
             return true;
         }
         return false;

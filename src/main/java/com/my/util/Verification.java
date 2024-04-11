@@ -1,34 +1,37 @@
-package org.example.util;
+package com.my.util;
 
-import org.example.bean.ERROR;
+import com.my.bean.Error;
+import com.my.bean.Failed;
 
 public class Verification {
 
     private static VerificationDate verificationDate;
 
     private static VerificationCurrency verificationCurrency;
+
     private static validateEmpty validateEmpty;
+
     private Verification() {
     }
 
-    public static ERROR validate(String startDate, String endDate, String currency) {
+    public static Failed validate(String startDate, String endDate, String currency) {
 
         if (validateEmpty.validate(startDate, endDate,currency)) {
-            return new ERROR("E004", "傳入參數不為空");
+            return new Failed(Error.VALUES_NOTNULL);
         }
 
         if (verificationDate.validateFormat(startDate, endDate)) {
-            return new ERROR("E002", "日期格式錯誤");
+            return new Failed(Error.FORMAT_FAILED);
         }
 
         if (verificationDate.validate(startDate, endDate)) {
-            return new ERROR("E001", "日期區間不符");
+            return new Failed(Error.INTERVAL_FAILED);
         }
 
         if (verificationCurrency.validate(currency)) {
-            return new ERROR("E003", "查詢幣別有誤");
+            return new Failed(Error.CURRENCY_FAILED);
         }
-        return new ERROR();
+        return new Failed(Error.SUCCESS);
     }
 
 }

@@ -1,6 +1,6 @@
-package org.example.service;
+package com.my.service;
 
-import org.example.bean.Forex;
+import com.my.bean.Forex;
 
 import java.util.List;
 import java.util.Map;

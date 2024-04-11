@@ -1,11 +1,11 @@
-package org.example.service.impl;
+package com.my.service.impl;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.Repository.ForexRepository;
-import org.example.bean.Forex;
-import org.example.service.ForexService;
-import org.example.util.AppConfig;
+import com.my.bean.Forex;
+import com.my.repository.ForexRepository;
+import com.my.service.ForexService;
+import com.my.util.AppConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,17 +18,18 @@ import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
 public class ForexServiceImpl implements ForexService {
+    private static final Logger LOGGER = Logger.getLogger(ForexServiceImpl.class.getName());
 
     @Autowired
     private ForexRepository forexRepository;
 
     @Autowired
     private AppConfig appConfig;
-
 
     @Override
     public void processObtain() {
@@ -71,7 +72,7 @@ public class ForexServiceImpl implements ForexService {
     @Override
     public Forex processSave(Forex forex) {
         Forex data = forexRepository.insert(forex);
-        System.out.println("insert一筆：" + data);
+        LOGGER.info("insert一筆：" + data);
         return data;
     }
 

@@ -1,7 +1,13 @@
-package org.example.util;
+package com.my.util;
+
+import java.util.logging.Logger;
 
 public class VerificationCurrency {
-    private VerificationCurrency(){}
+    private static final Logger LOGGER = Logger.getLogger(VerificationDate.class.getName());
+
+    private VerificationCurrency() {
+    }
+
     public static boolean validate(String currency) {
         switch (currency) {
             case "USD/NTD":
@@ -14,10 +20,10 @@ public class VerificationCurrency {
             case "USD/RMB":
             case "USD/ZAR":
             case "NZD/USD":
-                System.out.println("查詢幣別為:"+currency);
+                LOGGER.info("查詢幣別為:" + currency);
                 break;
             default:
-                System.out.println("查詢幣別有誤");
+                LOGGER.severe("查詢幣別有誤");
                 return true;
         }
         return false;

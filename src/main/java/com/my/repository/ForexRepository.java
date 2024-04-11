@@ -1,7 +1,7 @@
-package org.example.Repository;
+package com.my.repository;
 
 
-import org.example.bean.Forex;
+import com.my.bean.Forex;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 

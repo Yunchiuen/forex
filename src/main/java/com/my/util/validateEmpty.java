@@ -1,23 +1,23 @@
-package org.example.util;
+package com.my.util;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.logging.Logger;
 
 public class validateEmpty {
+    private static final Logger LOGGER = Logger.getLogger(VerificationDate.class.getName());
     public static boolean validate(String startDate, String endDate, String currency) {
 
         if (startDate == null) {
-            System.out.println("startDate不為空");
+            LOGGER.severe("startDate不為空");
             return true;
         }
 
         if (endDate == null) {
-            System.out.println("endDate不為空");
+            LOGGER.severe("endDate不為空");
             return true;
         }
 
         if (currency == null) {
-            System.out.println("currency不為空");
+            LOGGER.severe("currency不為空");
             return true;
         }
 
