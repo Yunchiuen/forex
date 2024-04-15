@@ -3,7 +3,7 @@ package com.my.util;
 import java.util.logging.Logger;
 
 public class validateEmpty {
-    private static final Logger LOGGER = Logger.getLogger(VerificationDate.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(validateEmpty.class.getName());
     public static boolean validate(String startDate, String endDate, String currency) {
 
         if (startDate == null) {

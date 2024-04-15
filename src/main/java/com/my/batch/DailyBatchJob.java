@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 @Component
 public class DailyBatchJob {
-    private static final Logger LOGGER = Logger.getLogger(ForexServiceImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(DailyBatchJob.class.getName());
 
     @Autowired
     private ForexService forexService;

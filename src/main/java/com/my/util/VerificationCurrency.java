@@ -3,7 +3,7 @@ package com.my.util;
 import java.util.logging.Logger;
 
 public class VerificationCurrency {
-    private static final Logger LOGGER = Logger.getLogger(VerificationDate.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(VerificationCurrency.class.getName());
 
     private VerificationCurrency() {
     }
